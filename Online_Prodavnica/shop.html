@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<!--
+Vuk Babić AI-36/2019 		2022
+Veljko Radović AI-32/2019	2022
+Jovana Maletin AI-7/2019 	2022
+-->
+<head>
+	<title>Shop</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="js/jquery.cookie.js"></script>
+	<script src="js/shopItems.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
+
+	<style type="text/css">
+		.shopItemsWrap {
+			padding-top: 5em;
+		}
+		.cart-link__bubble--visible {
+		    color: #fff;
+		    font-size: 9px;
+		    text-align: center;
+		}
+	</style>
+
+	<script type="text/javascript">
+
+	$(document).ready(function () {
+
+
+		var selectedItems = [];
+		var selectedItemsCount = [];
+		
+		var jedan=1;
+		document.getElementById("item_count").innerHTML  = item_count;
+		var k=1;
+
+			if ($.cookie("selectedItems")) {
+				selectedItems = JSON.parse($.cookie("selectedItems"));
+			}
+			if ($.cookie("selectedItemsCount")) {
+				selectedItemsCount = JSON.parse($.cookie("selectedItemsCount"));
+			}
+
+		document.getElementById("item_count").innerHTML  = item_count;
+		console.log("### GENERISANJE PRODAVNICE");
+
+			function updateInterface() {
+
+				console.log("Update Interface");
+				console.log(selectedItems);
+
+					var item_count=0;
+					selectedItemsCount.forEach(function(item){
+				     item_count += item; 
+			         });
+					$("#item_count").text("("+item_count+")");
+
+				$(".shopItemsWrap .card").removeClass("bg-primary");
+				$(".shopItemsWrap .btnadd").css("display", "inline-block");
+				$(".shopItemsWrap .btnremove").css("display", "none");
+
+
+				selectedItems.forEach(function (item) {
+					console.log(item);
+					$("#" + item).find(".card").addClass("bg-primary");
+					$("#" + item).find(".btnadd").css("display", "none");
+					$("#" + item).find(".btnremove").css("display", "inline-block");
+				});
+
+			}
+
+		function updateSelectedItems(itemId, task) {
+
+			console.log("Update selected item, itemId: " + itemId + " ,task: " + task);
+
+			if (task == "add") {
+				selectedItems.push(itemId);
+				selectedItemsCount.push(1);
+
+			} else {
+				selectedItems.splice(selectedItems.indexOf(itemId), 1);
+				selectedItemsCount.splice(selectedItems.indexOf(itemId), 1);
+			}
+
+			$.cookie("selectedItems", JSON.stringify(selectedItems));
+			$.cookie("selectedItemsCount", JSON.stringify(selectedItemsCount));
+
+			updateInterface();
+		}
+
+		shopItems.forEach(function (item) {
+			console.log(item);
+
+			var itemId = item["itemId"];
+
+			$("#shopItem")
+				.clone()
+				.css("display", "block")
+				.attr("id", itemId)
+				.appendTo(".shopItemsWrap");
+
+			$("#" + itemId).find("img").attr("src", item["itemImg"]);
+			$("#" + itemId).find(".card-title").html(item["itemDesc"]);
+			$("#" + itemId).find(".card-text").text(item["itemPrice"]+" $");
+
+			$("#" + itemId).find(".btnadd").click(function () {
+				updateSelectedItems(itemId, "add");
+			});
+
+			$("#" + itemId).find(".btnremove").css("display", "none").click(function () {
+				updateSelectedItems(itemId, "remove");
+			});
+
+
+		});
+
+		updateInterface();
+
+	});
+
+	</script>
+
+
+</head>
+
+<body class="pozadina">
+	<img class="slika" src="./imgs/velika slika.png">
+	<div class="container boja2">
+
+		<nav class="navbar navbar-expand-lg fixed-top boja">
+			<a class="navbar-brand mail font" href="shop.html">Anime Fan Shop</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+				aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+					<a class="nav-item nav-link active font2" href="shop.html">Shop</a>
+					<a class="nav-item nav-link font2" href="cart.html">Cart <span id="item_count"></span></a>
+					<a class="nav-item nav-link font2" href="contact.html">Contact</a>
+				</div>
+			</div>
+		</nav>
+		
+
+		<!-- SHOP ITEM TEMPLATE -->
+		<div id="shopItem" class="col-sm-6 col-md-4 col-lg-3" style="display:none;">
+			<div class="card mb-4 senka">
+				<img class="card-img-top"  src="shopimgs/22997.png">
+				<div class="Tekst card-text"><p>NestoNesto</p></div>
+				<div class="card-body">
+					<h5 class="card-title font4">Opis ili naziv</h5>
+					<a href="#" class="btnadd btn btn-primary font4">Dodaj u korpu</a>
+					<a href="#" class="btnremove btn btn-primary font4">Ukloni</a>
+				</div>
+			</div>
+		</div>
+		<!-- SHOP ITEM TEMPLATE -->
+
+		<div class="shopItemsWrap row">
+			
+		</div>
+		<div>
+			<br>
+			<br>
+			<br>
+		</div>
+	</div>
+	
+
+<!--FOOTER-->
+	<div class="container-fluid futer">
+
+		<div>
+			
+			<div class="text-center">
+				<a class="mail font3 " href="mailto:jovanamaletin@gmail.com">Jovana Maletin</a>
+				<a class="mail font3 " href="mailto:veljkorad24@gmail.com">Veljko Radovic</a>
+				<a class="mail font3 " href="mailto:vukbabic1609@gmail.com">Vuk Babic</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+
+.boja{
+
+    background-color: #DB0195;
+
+}
+
+.boja2{
+
+    background-color: #444444;
+    border-radius: 20px;
+    margin-top: 5px;
+
+}
+
+.font{
+
+    font-family: 'Kanit', sans-serif;
+    color: aliceblue;
+    font-weight: 800;
+
+}
+
+.font2{
+
+    font-family: 'Kanit', sans-serif;
+    color: aliceblue;
+    font-weight: 200;
+
+}
+
+.font3{
+
+    font-family: 'Kanit', sans-serif;
+    color: aliceblue;
+    font-weight: 200;
+    padding: 20px;
+    text-align: center;
+
+}
+
+.font4{
+
+    font-family: 'Kanit', sans-serif;
+    
+
+}
+
+.slika{
+
+    width: 100%;
+
+}
+
+.pozadina{
+
+    background-color: #252525;
+
+}
+
+.futer{
+
+    border-radius: 10px 10px 0px 0px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #DB0195;
+
+}
+
+.senka{
+
+    box-shadow: 3px 5px 5px aqua;
+
+}
+
+.card-img-top:hover{
+
+    opacity: 0.1;
+    transition: 0.5s;
+
+}
+
+.Tekst{
+
+    display: none;
+  
+}
+
+.card:hover .Tekst{
+
+    display: block;
+    transition: 0.5s;
+    opacity: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -150%);
+    font-family: 'Kanit', sans-serif;
+    color: #16D6DB;
+    -webkit-text-stroke: 1px black;
+    font-size: 40px;
+    font-weight: 400;
+    text-align: center;
+    
+}
+
+.nav-link:hover{
+
+    text-decoration: underline;
+    color: whitesmoke;
+
+}
+
+.mail:hover{
+
+    text-decoration: underline;
+    color: whitesmoke;
+
+}
+
+/*----------------------------------------------------------------------------*/
+
+.pozicija {
+
+    position: relative;
+
+}
+
+.boja3{
+
+    background-color: #444444;
+    border-radius: 5px;
+    padding: 2%;
+
+}
+
+.dugmeboja{
+
+background-color: #8F0E66;
+border-color: #8F0E66;
+
+}
+
+.dugmeboja2{
+
+    background-color: #8F0E66;
+    border-color: #8F0E66;
+    margin: left;
+    color: whitesmoke;
+    border-radius: 8px;
+    margin: 1%;
+    
+}
+
+.dugmeboja:hover{
+
+    background-color: #16D6DB;
+    border-color: #16D6DB;
+    
+}
+
+.inputboja{
+
+    background-color: #8F0E66;
+    border-color: #640a48;
+    color: whitesmoke;
+    border-radius: 15px;
+    text-align: center;
+    font-family: 'Kanit', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+
+}
+
+/*------------------------------------------------------------------------------------------------------*/
+
+.kontaktprozor{
+
+    background-color: #444444;
+    border-radius: 20px;
+    text-align: center;
+    padding: 2%;
+
+}
+
+.font5{
+
+    font-family: 'Kanit', sans-serif;
+    color: aliceblue;
+    font-weight: 800;
+    
+}
+
+.pozadina2{
+
+    background-image: url(./imgs/kontakt.png);
+    position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    
+}
+.navbar-toggler{
+    border-color: black;
+}

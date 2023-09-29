@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<!--
+Vuk Babić AI-36/2019 		2022
+Veljko Radović AI-32/2019	2022
+Jovana Maletin AI-7/2019 	2022
+-->
+<head>
+	<title>Cart</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="js/jquery.cookie.js"></script>
+	<script src="js/shopItems.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
+
+	<style type="text/css">
+		.shopItemsWrap{
+			padding-top:5em;
+		}
+	</style>
+
+	<script type="text/javascript">
+
+		$(document).ready(function() {
+
+			var selectedItems = [];
+			var selectedItemsCount = [];
+
+			if ($.cookie("selectedItems")) {
+				selectedItems = JSON.parse($.cookie("selectedItems"));
+			}
+			if ($.cookie("selectedItemsCount")) {
+				selectedItemsCount = JSON.parse($.cookie("selectedItemsCount"));
+			}
+
+			function updatePrice(itemId, funcId) {
+
+				console.log("Provera dugmića:");
+
+				var itemPrice = 0;
+				var itemCount = 0;
+				var itemSum = 0;
+				var itemIndex = 0;
+				var totalSum = 0;
+
+				shopItems.forEach(function (item, index) {
+					if(item["itemId"] == itemId) {
+						itemPrice = item["itemPrice"];
+						itemCount = selectedItemsCount[selectedItems.indexOf(itemId)];
+						itemIndex = index;
+					}
+				});
+
+				//funkcija za dodavanja i oduzimanje
+
+				if (funcId == "inc"){
+					itemCount += 1;
+				}
+				if (funcId == "dec"){
+					if (itemCount > 0){
+						itemCount -= 1;
+					}
+				}
+
+				itemSum = itemCount * itemPrice;
+				shopItems[itemIndex]["itemCount"] = itemCount;
+
+				selectedItemsCount[selectedItems.indexOf(itemId)] = itemCount;
+				$.cookie("selectedItemsCount", JSON.stringify(selectedItemsCount));
+
+				shopItems.forEach(function(item, index){
+					if (selectedItems.indexOf(item["itemId"]) > -1) {
+						totalSum += item["itemPrice"] * item["itemCount"];
+					}
+				});
+
+				
+				var popust=0
+				if($.cookie("popust")){
+					popust = JSON.parse($.cookie("popust"));
+				}
+				if(popust==1)
+				{
+					totalSum*=0.8;
+				}
+
+				$("#" + itemId).find(".page-link-lbl").text(itemCount);
+				$("#" + itemId).find(".itemSum").text(itemSum);
+				$(".totalSum").text(parseInt(totalSum)+"$");
+
+				console.log("itemPrice:" + itemPrice);
+				console.log("itemCount:" + itemCount);
+				console.log("itemSum:" + itemSum);
+				console.log("totalSum:" + totalSum);
+			}
+			
+
+			shopItems.forEach(function (item) {
+				console.log(item["itemImg"]);
+				console.log(item["itemDesc"]);
+				console.log(item["itemPrice"]);
+				console.log(item["itemId"]);
+				console.log(item["itemCount"]);
+				console.log("-------------------------------------------------------");
+
+				var itemId = item["itemId"];
+
+				if (selectedItems.indexOf(itemId) > -1) {
+					$("#shopItem")
+						.clone()
+						.css("display", "block")
+						.attr("id", itemId)
+						.appendTo(".shopItemsWrap");
+
+					$("#" + itemId).find("img").attr("src", item["itemImg"]);
+					$("#" + itemId).find(".itemDesc").html(item["itemDesc"]);
+					$("#" + itemId).find(".itemPrice").text(item["itemPrice"]);
+
+					updatePrice(itemId, "none");
+					
+				}
+			});
+
+			selectedItems = [];
+			selectedItemsCount = [];
+			$.cookie("selectedItems", JSON.stringify(selectedItems));
+			$.cookie("selectedItemsCount", JSON.stringify(selectedItemsCount));
+
+		});
+		</script>
+
+</head>
+<body class="pozadina">
+<div class="container" style="position: relative;">
+
+	<nav class="navbar navbar-expand-lg fixed-top boja">
+		<a class="navbar-brand mail font" href="shop.html">Anime Fan Shop</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+			aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link active font2" href="shop.html">Shop</a>
+				<a class="nav-item nav-link font2" href="cart.html">Cart <span id="item_count"></span></a>
+				<a class="nav-item nav-link font2" href="contact.html">Contact</a>
+			</div>
+		</div>
+	</nav>
+
+<!-- SHOP ITEM TEMPLATE -->
+	<div id="shopItem" style="display: none;">
+		<div class="row mt-3 senka boja3">
+			<div class="col-md-2">
+				<img src="" class="img-fluid">
+			</div>
+			<div class="col-md-3 itemDesc font2">
+
+			</div>
+			<div class="col-md-1 text-left dugme"></div>
+			<div class="col-md-3 text-right itemPrice font2">0</div>
+
+			<div class="col-md-2 text-right float-left">
+				<ul class="pagination float-right">
+					<li class="page-item disabled"><a class="page-link page-link-lbl" href="#">0</a></li>
+				</ul>
+			</div>
+			<div class="col-md-1 text-right itemSum font2">0</div>
+		</div>
+		<hr/>
+	</div><!-- SHOP ITEM TEMPLATE -->
+	<div style="text-align: center;">
+		<h2>Racun</h2>
+		<br>
+	</div>
+	<div class="shopItemsWrap">	
+
+	</div>
+
+	<div class="row">
+		<div class="col-sm-10 text-right display-4 font2">Total Price:</div>
+		<div class="col-sm-2 text-right display-4 totalSum font2" id="suma"></div>
+	</div>
+		<div>
+		</div>
+<br>
+<br>
+<br>
+</div>
+
+
+<!--FOOTER-->
+<div class="container-fluid futer">
+
+	<div>
+		
+		<div class="text-center">
+			<a class="mail font3 " href="mailto:jovanamaletin@gmail.com">Jovana Maletin</a>
+			<a class="mail font3 " href="mailto:veljkorad24@gmail.com">Veljko Radovic</a>
+			<a class="mail font3 " href="mailto:vukbabic1609@gmail.com">Vuk Babic</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>
